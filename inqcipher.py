@@ -20,7 +20,7 @@ def generate_wheel(chars, levels, s=True):
     return wheel
 
 def generate_key(chars, wheel):
-    index = randint(0, len(chars))
+    index = randint(0, len(chars)-1)
     key = chars[index]
 
     for w in wheel:
