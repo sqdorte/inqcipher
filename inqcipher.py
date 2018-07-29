@@ -33,7 +33,7 @@ def decrypt_key(chars, key, levels):
     index = chars.index(key[0])
     wheel = generate_wheel(chars, levels, s=False)
     
-    for x in range(len(wheel)-1): # EU TENHO Q MELHORAR ISSO TAMBÉM desculpa
+    for x in range(len(wheel)-1):
         while True:
             wheel[x] = shift(wheel[x], 1)
             if wheel[x][index] == [key[1:][m:m+size] for m in range(0, len(key)-2, size)][x]:
