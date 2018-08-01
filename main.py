@@ -16,39 +16,26 @@ if __name__ == '__main__':
         levels = config['levels']
 
     parser = ArgumentParser()
-    parser.add_argument(
-        '-e', '--encrypt',
-        help='Use this to encrypt a plain text.'
-    )
-    parser.add_argument(
-        '-d', '--decrypt',
-        help='Use this to decrypt a ciphered message.'
-    )
-    parser.add_argument(
-        '-k', '--key',
-        help='The key to encrypt/decrypt a message.'
-    )
-    parser.add_argument(
-        '-g', '--generate',
-        help='Use this to generate a key.',
-        action='store_true'
-    )
+    subparsers = parser.add_subparsers(title='Available commands.')
+
+    # Encrypt options
+    encrypt = subparsers.add_parser('encrypt', description='Encrypt a plain text.')
+    encrypt.add_argument('plain', help='Plain text to encrypt.')
+    encrypt.add_argument('key', help='Key to encrypt.')
+
+    # Decrypt options
+    decrypt = subparsers.add_parser('decrypt', description='Decrypt a ciphered message.')
+    decrypt.add_argument('plain', help='Ciphered message to decrypt.')
+    decrypt.add_argument('key', help='Key to decrypt.')
+
+    # Generate options
+    generate = subparsers.add_parser('generate', description='Generate a random key.')
 
     args = parser.parse_args()
 
-    if len(sys.argv) > 5:
-        print('You shoud\'nt use the args that way!')
-        raise SystemExit
-    if len(sys.argv) == 5 and not args.key:
-        print('You shoud\'nt use the args that way!')
-        raise SystemExit
-    if len(sys.argv) > 2 and args.generate:
-        print('You shoud\'nt use the args that way!')
-        raise SystemExit
-
     if args.encrypt:
-        wheel = inqcipher.decrypt_key(chars, args.key, levels)
-        print(inqcipher.encrypt(args.encrypt, wheel, chars))
+        wheel = inqcipher.decrypt_key(chars, args.encrypt.key, levels)
+        print(inqcipher.encrypt(args.encrypt.plain, wheel, chars))
     if args.decrypt:
         wheel = inqcipher.decrypt_key(chars, args.key, levels)
         print(inqcipher.decrypt(args.decrypt, wheel, chars))
