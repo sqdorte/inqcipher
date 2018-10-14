@@ -16,10 +16,10 @@ if __name__ == '__main__':
         levels = config['levels']
 
     parser = ArgumentParser()
-    subparsers = parser.add_subparsers(title='Available commands.')
+    subparsers = parser.add_subparsers(title='Available commands.', dest='command')
 
     # Encrypt options
-    encrypt = subparsers.add_parser('encrypt', description='Encrypt a plain text.')
+    encrypt = subparsers.add_parser('encrypt', description='Encrypt a plain text')
     encrypt.add_argument('plain', help='Plain text to encrypt.')
     encrypt.add_argument('key', help='Key to encrypt.')
 
@@ -33,11 +33,13 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if args.encrypt:
+    if args.command == 'encrypt':
         wheel = inqcipher.decrypt_key(chars, args.encrypt.key, levels)
         print(inqcipher.encrypt(args.encrypt.plain, wheel, chars))
-    if args.decrypt:
+    
+    if args.command == 'decrypt':
         wheel = inqcipher.decrypt_key(chars, args.key, levels)
         print(inqcipher.decrypt(args.decrypt, wheel, chars))
-    if args.generate:
+    
+    if args.command == 'generate':
         print(inqcipher.generate_key(chars, inqcipher.generate_wheel(chars, levels)))
